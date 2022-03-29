@@ -1,6 +1,6 @@
 const hre = require("hardhat");
 const namehash = require('eth-ens-namehash');
-const sha3 = require('web3-utils').sha3;
+const web3Utils = require('web3-utils')
 const tld = "ela";
 const ethers = hre.ethers;
 const utils = ethers.utils;
@@ -38,24 +38,31 @@ async function main() {
   const resolver = await PublicResolver.deploy(ens_old.address, ZERO_ADDRESS);
   await resolver.deployed();
   console.log("resolver:", resolver.address);
-
   await setupResolver(ens_old, resolver, accounts);
 
-  const registrar = await FIFSRegistrar.deploy(ens_old.address, tld_hash);
-  await registrar.deployed();
-  console.log("tld registrar:", registrar.address);
+  // const registrar = await FIFSRegistrar.deploy(ens_old.address, tld_hash);
+  // await registrar.deployed();
+  // console.log("tld registrar:", registrar.address);
+  // await setupRegistrar(ens_old, registrar);
 
-  await setupRegistrar(ens_old, registrar);
-
-  const reverseRegistrar = await ReverseRegistrar.deploy(ens_old.address, resolver.address);
-  await reverseRegistrar.deployed()
-  console.log("reverseRegistrar:", reverseRegistrar.address);
-
-  await setupReverseRegistrar(ens_old, registrar, reverseRegistrar, accounts);
+  // const reverseRegistrar = await ReverseRegistrar.deploy(ens_old.address, resolver.address);
+  // await reverseRegistrar.deployed()
+  // console.log("reverseRegistrar:", reverseRegistrar.address);
+  // await setupReverseRegistrar(ens_old, registrar, reverseRegistrar, accounts);
 
   const baseRegistrar = await BaseRegistrarImplementation.deploy(ens_old.address, tld_hash);
   await baseRegistrar.deployed();
   console.log("baseRegistrar:", baseRegistrar.address);
+  await setupRegistrar(ens_old, baseRegistrar);
+  const gracePeriod = await baseRegistrar.GRACE_PERIOD();
+  console.log("-- gracePeriod:", gracePeriod);
+  const baseRegistrarAvailable = await baseRegistrar.available(labelhash("new_domain"));
+  console.log("-- available:", baseRegistrarAvailable);
+
+  const reverseRegistrar = await ReverseRegistrar.deploy(ens_old.address, resolver.address);
+  await reverseRegistrar.deployed()
+  console.log("reverseRegistrar:", reverseRegistrar.address);
+  await setupReverseRegistrar(ens_old, baseRegistrar, reverseRegistrar, accounts);
 
   const dummyOracle = await DummyOracle.deploy("100000000");
   await dummyOracle.deployed();
@@ -66,9 +73,10 @@ async function main() {
   const controller = await ETHRegistrarController.deploy(baseRegistrar.address, stablePriceOracle.address, 600, 86400); // reverseRegistrar.address,ZERO_ADDRESS
   await controller.deployed();
   console.log("controller:", controller.address);
+  const available = await controller.available("new_domain");
+  console.log("-- available:", available);
 
   await baseRegistrar.addController(controller.address, { gasLimit: 210000 });
-
   await baseRegistrar.addController(accounts[0], { gasLimit: 210000 });
 
   await resolver.setInterface(tld_hash, '0x018fac06', controller.address, { gasLimit: 210000 });
@@ -87,11 +95,10 @@ async function main() {
   const dnsRegistrar = await DNSRegistrar.deploy(dummyDNSSEC.address, simplePublicSuffixList.address, ens_old.address);
   await dnsRegistrar.deployed();
   console.log("dnsRegistrar:", dnsRegistrar.address);
-
-  const supportsInterfaceResult=await dnsRegistrar.supportsInterface("0x1aa2e641");
+  const supportsInterfaceResult = await dnsRegistrar.supportsInterface("0x1aa2e641");
   console.log("-- supportsInterface(0x1aa2e641) result:", supportsInterfaceResult);
 
-  const supportsInterfaceResultNew=await dnsRegistrar.supportsInterface("0x17d8f49b");
+  const supportsInterfaceResultNew = await dnsRegistrar.supportsInterface("0x17d8f49b");
   console.log("-- supportsInterface(0x17d8f49b) result:", supportsInterfaceResultNew);
 
   root.setController(dnsRegistrar.address, true, { gasLimit: 21000 });

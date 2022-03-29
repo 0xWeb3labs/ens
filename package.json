@@ -7,7 +7,7 @@
     "deploy-rinkeby": "hardhat run --network rinkeby scripts/deploy.js"
   },
   "devDependencies": {
-    "@ensdomains/ens-contracts": "^0.0.11",
+    "@ensdomains/ens-contracts": "git+https://github.com/siyushin/ens-contracts/tree/f96071824d27c0c6ce0e543b5366c734984c329a",
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "chai": "^4.3.6",
