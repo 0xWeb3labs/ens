@@ -26,6 +26,7 @@ async function main() {
 
   const signers = await ethers.getSigners();
   const accounts = signers.map(s => s.address);
+  console.log("accounts =", accounts);
 
   const ens_old = await ENSRegistry.deploy();
   await ens_old.deployed();
