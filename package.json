@@ -7,7 +7,9 @@
     "deploy-rinkeby": "hardhat run --network rinkeby scripts/deploy.js"
   },
   "devDependencies": {
-    "@ensdomains/ens-contracts": "git+https://github.com/siyushin/ens-contracts/tree/f96071824d27c0c6ce0e543b5366c734984c329a",
+    "@ensdomains/dnssec-oracle-anchors": "^0.0.1",
+    "@ensdomains/ens-archived-contracts": "^0.0.1",
+    "@ensdomains/ens-contracts": "^0.0.11",
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "chai": "^4.3.6",
@@ -15,6 +17,12 @@
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.1",
     "hardhat": "^2.9.1",
-    "web3-utils": "^1.7.1"
+    "table": "^5.4.6",
+    "chalk": "^3.0.0",
+    "web3-utils": "^1.7.1",
+    "moment": "^2.26.0"
+  },
+  "dependencies": {
+    "web3": "^1.7.3"
   }
 }
