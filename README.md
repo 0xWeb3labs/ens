@@ -6,10 +6,13 @@ Try running some of the following tasks:
 
 ```shell
 ganache -b 3
+npm run depoly-localhost
 ```
 
-then:
+*OR*
+
+Check out `./hardhat.config.js`, modify the section about Rinkeby, and then:
 
 ```shell
-npm run depoly-localhost
+npm run depoly-rinkeby
 ```
