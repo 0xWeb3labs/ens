@@ -40,8 +40,8 @@ const registerName = async function (
     .call()
   await controllerContract.commit(commitment).send({ from: account })
   var minCommitmentAge = await controllerContract.minCommitmentAge().call()
-  const time = await advanceTime(web3, parseInt(minCommitmentAge))
-  await mine(web3)
+  // const time = await advanceTime(web3, parseInt(minCommitmentAge))
+  // await mine(web3)
   const value = await controllerContract.rentPrice(name, duration).call()
   const trx = await controllerContract
     .register(name, account, duration, secret)

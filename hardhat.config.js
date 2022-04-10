@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-web3");
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,9 +21,12 @@ module.exports = {
   solidity: "0.8.4",
   networks: {
     hardhat: {},
-    // rinkeby: {
-    //   url: "https://rinkeby.infura.io/v3/e439a932051141d994361216bd76c838",
-    //   accounts: ["private_key_0"]
-    // }
+    localhost: {
+      gas: 6000000
+    },
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/",
+      accounts: [""]
+    }
   },
 };

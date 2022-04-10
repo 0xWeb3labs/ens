@@ -4,12 +4,15 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ROOT_NODE = '0x00000000000000000000000000000000';
 const ZERO_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
 const Web3 = require('web3');
-const web3 = new Web3("http://localhost:8545");
 const NameLogger = require('./nameLogger');
 const interfaces = require('./interfaces');
 const { DAYS, mine, advanceTime, auctionLegacyName, registerName, loadContract, deploy } = require("./utils");
 const { BigNumber } = require("ethers");
 const tld = "eth";
+
+hre.Web3 = Web3;
+hre.web3 = new Web3(hre.network.provider);
+const web3 = hre.web3;
 
 async function main() {
   // const accounts = await web3.eth.getAccounts();
@@ -188,8 +191,8 @@ async function main() {
       console.log('auctioning Legacy name failed', { name: legacynames[i], e })
     }
     const lockoutlength = 60 * 60 * 24 * 190
-    await advanceTime(web3, lockoutlength)
-    await mine(web3)
+    // await advanceTime(web3, lockoutlength)
+    // await mine(web3)
     // Need to wait for the lock period to end
   }
 
@@ -421,7 +424,7 @@ async function main() {
 
   await oldReverseRegistrarContract
     .setName(tld)
-    .send({ from: accounts[2], gas: 1000000 })
+    .send({ from: accounts[0], gas: 1000000 })
 
   // await mine(web3)
   // let current = await web3.eth.getBlock('latest')
