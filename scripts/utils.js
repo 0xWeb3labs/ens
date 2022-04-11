@@ -123,9 +123,9 @@ function loadContract(modName, contractPath) {
   let loadpath
   const contractName = contractPath.split('/').reverse()[0]
   if (['ens-022', 'ethregistrar-202', 'subdomain-registrar'].includes(modName)) {
-    loadpath = `${process.env.PWD}/node_modules/@ensdomains/ens-archived-contracts/abis/${modName}/${contractName}.json`
+    loadpath = `${process.cwd()}/node_modules/@ensdomains/ens-archived-contracts/abis/${modName}/${contractName}.json`
   } else {
-    loadpath = `${process.env.PWD}/node_modules/@ensdomains/ens-contracts/artifacts/contracts/${modName}/${contractPath}.sol/${contractName}.json`
+    loadpath = `${process.cwd()}/node_modules/@ensdomains/ens-contracts/artifacts/contracts/${modName}/${contractPath}.sol/${contractName}.json`
   }
   return require(loadpath)
 }

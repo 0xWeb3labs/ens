@@ -24,9 +24,9 @@ module.exports = {
     localhost: {
       gas: 6000000
     },
-    rinkeby: {
-      url: "https://rinkeby.infura.io/v3/",
-      accounts: [""]
-    }
+    // rinkeby: {
+    //   url: "https://rinkeby.infura.io/v3/",
+    //   accounts: [""]
+    // }
   },
 };
